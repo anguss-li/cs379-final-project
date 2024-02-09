@@ -23,6 +23,8 @@ def odds_ratio(X: str, Y: str, Z: str, Z_value: int, data: pd.DataFrame) -> floa
     # Note that X and Y are flipped!
     cond_probs = data_z.groupby(Y)[X].value_counts() / data_z.groupby(Y)[X].count()
 
+    # Evaluate
+    #     (P(X1 | Y1, Z)   /   P(X0 | Y1, Z))  *  (P(X0 | Y0, Z)   /   P(X1 | Y0, Z))
     OR = (cond_probs[1][1] / cond_probs[1][0]) * (cond_probs[0][0] / cond_probs[0][1])
     return round(OR, 3)
 
@@ -34,7 +36,7 @@ def compute_confidence_intervals(
     data: pd.DataFrame,
     num_bootstraps: int = 200,
     alpha: float = 0.05,
-) -> (float, float):
+) -> tuple[float, float]:
     """
     Compute confidence intervals through bootstrap
 
@@ -47,11 +49,12 @@ def compute_confidence_intervals(
 
     for i in range(num_bootstraps):
         # resample the data with replacement, you can use the pandas sample function for this
-        pass
+        data_sample = data.sample(data.shape[0], replace=True, axis=0)
+        estimates.append(odds_ratio(X, Y, Z, Z_value, data_sample))
 
     # calculate the quantiles
-    q_low = 0
-    q_up = 1
+    q_low = np.percentile(estimates, Ql*100)
+    q_up = np.percentile(estimates, Qu*100)
 
     return round(q_low, 3), round(q_up, 3)
 
