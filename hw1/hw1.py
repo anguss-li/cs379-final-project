@@ -49,7 +49,7 @@ def compute_confidence_intervals(
 
     for i in range(num_bootstraps):
         # resample the data with replacement, you can use the pandas sample function for this
-        data_sample = data.sample(data.shape[0], replace=True, axis=0)
+        data_sample = data.sample(len(data), replace=True)
         estimates.append(odds_ratio(X, Y, Z, Z_value, data_sample))
 
     # calculate the quantiles
