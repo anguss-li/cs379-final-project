@@ -1,0 +1,157 @@
+#maps
+#functions at the bottom
+library(scales)
+library(ggplot2)
+library(rgdal)
+library(rgeos)
+library(maptools)
+
+setwd("C:/Users/u6001910/Dropbox/RevisionsJCR/AcceptedJCR/ReplicationFiles/Maps")
+
+#main variables to map
+#1 reported drought
+#2 local rules
+#3 traditional rules
+#4 > local 
+#5 > traditional
+
+d<-read.csv("SurveyForMapping.csv")
+names(d)
+
+#clean county name field slightly
+d$COUNTY<- as.character (d$COUNTY)
+d$County<-d$COUNTY
+d$County[d$COUNTY == "BARINGO             "]<-"Baringo"
+d$County[d$COUNTY == "BUNGOMA             "]<-"Bungoma"
+d$County[d$COUNTY == "BUSIA               "]<-"Busia"
+d$County[d$COUNTY == "ELGEYO MARAKWET     "]<-"Keiyo-Marakwet"
+d$County[d$COUNTY == "GARISSA             "]<-"Garissa"
+d$County[d$COUNTY == "HOMABAY             "]<-"Homa Bay"
+d$County[d$COUNTY == "KAJIADO             "]<-"Kajiado"
+d$County[d$COUNTY == "KAKAMEGA            "]<-"Kakamega"
+d$County[d$COUNTY == "KERICHO             "]<-"Kericho"
+d$County[d$COUNTY == "KILIFI              "]<-"Kilifi"
+d$County[d$COUNTY == "KISII               "]<-"Kisii"
+d$County[d$COUNTY == "KISUMU              "]<-"Kisumu"
+d$County[d$COUNTY == "KITUI               "]<-"Kitui"
+d$County[d$COUNTY == "LAIKIPIA            "]<-"Laikipia"
+d$County[d$COUNTY == "MARSABIT            "]<-"Marsabit"
+d$County[d$COUNTY == "MERU                "]<-"Meru"
+d$County[d$COUNTY == "MOMBASA             "]<-"Mombasa"
+d$County[d$COUNTY == "MURANGA             "]<-"Murang'a"
+d$County[d$COUNTY == "NAIROBI             "]<-"Nairobi"
+d$County[d$COUNTY == "NAKURU              "]<-"Nakuru"
+d$County[d$COUNTY == "NANDI               "]<-"Nandi"
+d$County[d$COUNTY == "NAROK               "]<-"Narok"
+d$County[d$COUNTY == "NYERI               "]<-"Nyeri"
+d$County[d$COUNTY == "SAMBURU             "]<-"Samburu"
+d$County[d$COUNTY == "TAITA TAVETA        "]<-"Taita Taveta"
+d$County[d$COUNTY == "TRANS-NZOIA         "]<-"Trans Nzoia"
+d$County[d$COUNTY == "TURKANA             "]<-"Turkana"
+d$County[d$COUNTY == "UASIN GISHU         "]<-"Uasin Gishu"
+d$County[d$COUNTY == "WEST POKOT          "]<-"West Pokot"
+table(d$County)
+
+d$ones<-1 #used to aggregate
+
+#for a map we need the .shp files
+dsn<- getwd()
+
+county_shp<- readOGR(dsn = dsn , layer = "county_shp")
+names(county_shp)[7]<-"County" #makes teh name match
+
+counties<- readOGR(dsn = dsn , layer = "county")
+
+#run the map_var function below (with updates from original during Jan 2017)
+
+RepDrtMap<-map_var(d,"Reported.Drought","A) Droughts are worse")
+LocalRulesMap<-map_var(d,"Local.Rules.Exist","B) Local Offical rules exist")
+TraditionalRulesMap<-map_var(d,"Traditional.Rules.Exist","C) Local traditional rules exist")
+MoreLocalRulesMap<-map_var(d,"More.Local.Rules.Exist","D) More local rules exist")
+MoreTraditionalRulesMap<-map_var(d,"More.Traditional.Rules.Exist","E) More traditional rules exist")
+
+SurveyFigureJCR<-multiplot(RepDrtMap,LocalRulesMap,TraditionalRulesMap,MoreLocalRulesMap,MoreTraditionalRulesMap,cols=2)
+
+pdf("SurveyFigureJCR.pdf",12,10)
+multiplot(RepDrtMap,LocalRulesMap,TraditionalRulesMap,MoreLocalRulesMap,MoreTraditionalRulesMap,cols=3)
+dev.off()
+
+#any functions below 
+####################
+
+#aggregate a count for a variable to the county and map
+map_var<- function(d,varname,title){
+  varnames<-varname
+  var_agg <- data.frame(aggregate(d[varname], by = list (d$County), FUN = sum))
+  colnames (var_agg)<- c("County", "varN")
+  count_n <- data.frame(aggregate(d$ones, by = list (d$County), FUN = sum))
+  colnames(count_n)<- c("County", "N")
+  res<- data.frame(merge (var_agg, count_n, by = "County"))
+  res$var_prop<-res$varN/res$N
+  res$varN<-NULL
+  res$N<-NULL
+  colnames(res)<- c("County",varname)
+  data_shp <-fortify(county_shp,region =  "County")
+  print(mean(res[,2]))
+  mean <- mean(res[,2])
+  max <- max(res[,2])
+  min <- min(res[,2])
+  
+  ditch_the_axes <- theme(
+    axis.text = element_blank(),
+    axis.line = element_blank(),
+    axis.ticks = element_blank(),
+    panel.border = element_blank(),
+    panel.grid = element_blank(),
+    axis.title = element_blank())
+
+  county_shp@data = data.frame(county_shp@data, res[match(county_shp@data$County, res$County),])
+  p <- ggplot()
+  p <- p + geom_polygon(data=counties, aes(x= long, y=lat, group = group), color = "white", fill="grey60")
+  p <- p + geom_map (inherit.aes = FALSE, data = res,aes_string(map_id = "County", fill = varnames), colour = "white", 
+                     map = data_shp) + expand_limits(x = data_shp$long, y = data_shp$lat) + scale_fill_gradient2(low = "white", 
+                                                                                                                 mid = "brown3", midpoint = mean , high = muted("brown4"), limits = c(min, max))
+  p <- p + ggtitle(paste(title))
+  p <- p + ditch_the_axes
+  p <- p +theme(legend.position = c(.1,.15))
+  p <- p +theme(legend.title=element_blank())
+  p
+}
+
+#put several plots in one
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
+  library(grid)
+  
+  # Make a list from the ... arguments and plotlist
+  plots <- c(list(...), plotlist)
+  
+  numPlots = length(plots)
+  
+  # If layout is NULL, then use 'cols' to determine layout
+  if (is.null(layout)) {
+    # Make the panel
+    # ncol: Number of columns of plots
+    # nrow: Number of rows needed, calculated from # of cols
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
+                     ncol = cols, nrow = ceiling(numPlots/cols))
+  }
+  
+  if (numPlots==1) {
+    print(plots[[1]])
+    
+  } else {
+    # Set up the page
+    grid.newpage()
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
+    
+    # Make each plot, in the correct location
+    for (i in 1:numPlots) {
+      # Get the i,j matrix positions of the regions that contain this subplot
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
+      
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
+                                      layout.pos.col = matchidx$col))
+    }
+  }
+}
+

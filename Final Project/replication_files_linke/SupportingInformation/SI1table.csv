@@ -1,0 +1,27 @@
+"","Mean","Max","Min","Std. Dev."
+"Post-survey violence (1yr, 50km)",7.729,33,0,8.233
+"Post-survey violence (1yr, 25km)",4.12,26,0,6.917
+"Pre-survey violence (5yr, 50km)",26.861,100,0,28.792
+"Age",36.603,90,18,13.218
+"Gender",0.505,1,0,0.5
+"Employed",0.542,1,0,0.498
+"Formal education",0.325,1,0,0.469
+"Pastoralist",0.375,1,0,0.484
+"Low SES",0.254,1,0,0.436
+"Included (government)",0.727,1,0,0.445
+"Ethnicity match",0.296,1,0,0.457
+"Gender match",0.505,1,0,0.5
+"Attacked outside home (1yr)",0.178,1,0,0.383
+"TAMSAT very dry",0.105,1,0,0.307
+"TAMSAT dry",0.253,1,0,0.435
+"SPI3 very dry",0.107,1,0,0.309
+"Reported drought",0.579,1,0,0.494
+"Official natural resource rules",0.256,1,0,0.437
+"Unofficial natural resource rules",0.29,1,0,0.454
+"More official rules than past",0.172,1,0,0.378
+"More unofficial rules than past",0.15,1,0,0.357
+"Low precipitation variability",0.25,1,0,0.433
+"Precipitation (survey enumeration yr)",0.039,0.765,-0.633,0.275
+"Vegetation condition index",0.191,0.631,-0.539,0.299
+"Temperature deviations",1.182,1.351,0.814,0.142
+"Violence cue",0.513,1,0,0.5
