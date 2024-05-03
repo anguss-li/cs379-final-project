@@ -84,6 +84,7 @@ search.add_to_tier(1, "gender_match")
 search.add_to_tier(1, "vio_support")
 search.add_to_tier(1, "more_loc_rules_bi")
 search.add_to_tier(1, "more_trad_rules_bi")
+search.add_to_tier(1, "RepDrt")
 
 ## Run the search
 
