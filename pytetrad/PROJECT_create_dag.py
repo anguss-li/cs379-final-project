@@ -80,11 +80,14 @@ search.add_to_tier(1, "pastoral_q6")
 search.add_to_tier(1, "employed_q3")
 search.add_to_tier(1, "formal_education_q5")
 search.add_to_tier(1, "pastoral_q6")
-search.add_to_tier(1, "gender_match")
-search.add_to_tier(1, "vio_support")
 search.add_to_tier(1, "more_loc_rules_bi")
 search.add_to_tier(1, "more_trad_rules_bi")
-search.add_to_tier(1, "RepDrt")
+search.add_to_tier(2, "vio_support")
+search.add_to_tier(2, "RepDrt")
+search.add_to_tier(2, "T")
+search.add_to_tier(2, "gender_match")
+search.add_to_tier(2, "eth_match")
+search.add_to_tier(2, "weather_lied")
 
 ## Run the search
 
