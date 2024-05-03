@@ -1,0 +1,105 @@
+Graph Nodes:
+T;RepDrt;loc_rules_bi;trad_rules_bi;more_loc_rules_bi;more_trad_rules_bi;TAMBelow1st;TAMBelow2nd;SPI3Below1st;SPI3Below2nd;vio_support;DataVCI;DataTI3;SumPre5_50k;SPI3mean2013_07_2014_06;Var_low;age;gender;employed_q3;formal_education_q5;pastoral_q6;low_ses_q15;included_q11;attacked_1yr;eth_match;gender_match;weather_lied
+
+Graph Edges:
+1. DataTI3 --> DataVCI
+2. DataTI3 --> SPI3Below1st
+3. DataTI3 --> TAMBelow1st
+4. DataTI3 --> TAMBelow2nd
+5. DataVCI --> RepDrt
+6. DataVCI --> SPI3Below1st
+7. DataVCI --> TAMBelow1st
+8. DataVCI --> TAMBelow2nd
+9. DataVCI --> eth_match
+10. RepDrt --> SPI3Below1st
+11. RepDrt --> TAMBelow2nd
+12. SPI3Below2nd --> SPI3Below1st
+13. SPI3Below2nd --> weather_lied
+14. SPI3mean2013_07_2014_06 --> DataTI3
+15. SPI3mean2013_07_2014_06 --> RepDrt
+16. SPI3mean2013_07_2014_06 --> TAMBelow2nd
+17. SPI3mean2013_07_2014_06 --> eth_match
+18. SPI3mean2013_07_2014_06 --> included_q11
+19. SumPre5_50k --> DataTI3
+20. SumPre5_50k --> DataVCI
+21. SumPre5_50k --> RepDrt
+22. SumPre5_50k --> SPI3Below1st
+23. SumPre5_50k --> SPI3Below2nd
+24. SumPre5_50k --> SPI3mean2013_07_2014_06
+25. SumPre5_50k --> eth_match
+26. SumPre5_50k --> formal_education_q5
+27. SumPre5_50k --> trad_rules_bi
+28. TAMBelow1st --> SPI3Below2nd
+29. TAMBelow1st --> TAMBelow2nd
+30. TAMBelow2nd --> SPI3Below1st
+31. TAMBelow2nd --> SPI3Below2nd
+32. TAMBelow2nd --> weather_lied
+33. Var_low --> DataTI3
+34. Var_low --> DataVCI
+35. Var_low --> SPI3Below1st
+36. Var_low --> SPI3Below2nd
+37. Var_low --> SPI3mean2013_07_2014_06
+38. Var_low --> TAMBelow1st
+39. Var_low --> TAMBelow2nd
+40. Var_low --> employed_q3
+41. Var_low --> included_q11
+42. age --> SPI3Below2nd
+43. age --> employed_q3
+44. age --> formal_education_q5
+45. age --- pastoral_q6
+46. attacked_1yr --> DataTI3
+47. attacked_1yr --> RepDrt
+48. attacked_1yr --> low_ses_q15
+49. attacked_1yr --> weather_lied
+50. eth_match --> SPI3Below1st
+51. eth_match --> TAMBelow1st
+52. eth_match --> employed_q3
+53. formal_education_q5 --> DataTI3
+54. formal_education_q5 --> low_ses_q15
+55. gender --- age
+56. gender --> employed_q3
+57. gender --> formal_education_q5
+58. gender_match --- gender
+59. included_q11 --> DataTI3
+60. included_q11 --> DataVCI
+61. included_q11 --> SPI3Below1st
+62. included_q11 --> SPI3Below2nd
+63. included_q11 --> eth_match
+64. included_q11 --> low_ses_q15
+65. included_q11 --> trad_rules_bi
+66. loc_rules_bi --> TAMBelow2nd
+67. low_ses_q15 --> RepDrt
+68. low_ses_q15 --> employed_q3
+69. more_loc_rules_bi --> DataTI3
+70. more_loc_rules_bi --> attacked_1yr
+71. more_loc_rules_bi --> loc_rules_bi
+72. more_trad_rules_bi --> employed_q3
+73. more_trad_rules_bi --> loc_rules_bi
+74. more_trad_rules_bi --> more_loc_rules_bi
+75. pastoral_q6 --> DataTI3
+76. pastoral_q6 --> RepDrt
+77. pastoral_q6 --> SPI3Below1st
+78. pastoral_q6 --- SumPre5_50k
+79. pastoral_q6 --> TAMBelow2nd
+80. pastoral_q6 --> employed_q3
+81. pastoral_q6 --> eth_match
+82. pastoral_q6 --> included_q11
+83. pastoral_q6 --> trad_rules_bi
+84. pastoral_q6 --- vio_support
+85. trad_rules_bi --> DataTI3
+86. trad_rules_bi --> RepDrt
+87. trad_rules_bi --> SPI3Below1st
+88. trad_rules_bi --> attacked_1yr
+89. trad_rules_bi --> loc_rules_bi
+90. trad_rules_bi --> more_trad_rules_bi
+91. vio_support --> attacked_1yr
+92. vio_support --> formal_education_q5
+93. vio_support --> loc_rules_bi
+94. vio_support --> trad_rules_bi
+
+Graph Attributes:
+Score: 4643.317940
+BIC: 4643.317940
+
+Graph Node Attributes:
+Score: [T: 2.988720382290922E-13;RepDrt: 47.31168651844841;loc_rules_bi: 390.56031442489535;trad_rules_bi: 46.09900099648547;more_loc_rules_bi: 218.06989821594146;more_trad_rules_bi: 217.82958190686222;TAMBelow1st: 492.7935569439227;TAMBelow2nd: 515.7097185764378;SPI3Below1st: 408.7323302718153;SPI3Below2nd: 278.7787949125294;vio_support: 10.126172848404442;DataVCI: 870.4618413146593;DataTI3: 591.0705712276334;SumPre5_50k: 36.49376512623783;SPI3mean2013_07_2014_06: 107.86914053400267;Var_low: 7.471800955727304E-14;age: 18.78021700016268;gender: 6.741641253842586;employed_q3: 24.180060162118576;formal_education_q5: 46.69302947389625;pastoral_q6: -4.48308057343638E-13;low_ses_q15: 19.063777975212282;included_q11: 177.2791454249706;attacked_1yr: 17.386963728783243;eth_match: 62.975226133761524;gender_match: 29.315866225438313;weather_lied: 8.995638832777802]

@@ -70,7 +70,7 @@ search.use_sem_bic(penalty_discount=1)
 
 search.run_fges()
 
-output = search.get_string()
+output = str(search.get_string())
 print(output)
 
 with open("PROJECT_learned_edges.txt", "w") as file:
