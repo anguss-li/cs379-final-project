@@ -57,6 +57,9 @@ df[df_str.columns] = df[df_str.columns].apply(lambda x: pd.factorize(x)[0])
 
 df = df.astype({col: "float64" for col in df.columns})
 
+# Save cleaned data as csv for future use
+df.to_csv("PROJECT_data.csv", index=False, na_rep="*")
+
 search = ts.TetradSearch(df)
 
 # TODO: Conditional Correlation Independence
