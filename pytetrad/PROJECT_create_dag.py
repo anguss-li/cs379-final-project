@@ -73,6 +73,8 @@ search.add_to_tier(0, "SPI3mean2013_07_2014_06")
 search.add_to_tier(0, "Var_low")
 search.add_to_tier(0, "age")
 search.add_to_tier(0, "gender")
+search.add_to_tier(0, "loc_rules_bi")
+search.add_to_tier(0, "trad_rules_bi")
 search.add_to_tier(1, "low_ses_q15")
 search.add_to_tier(1, "pastoral_q6")
 search.add_to_tier(1, "employed_q3")
@@ -80,6 +82,8 @@ search.add_to_tier(1, "formal_education_q5")
 search.add_to_tier(1, "pastoral_q6")
 search.add_to_tier(1, "gender_match")
 search.add_to_tier(1, "vio_support")
+search.add_to_tier(1, "more_loc_rules_bi")
+search.add_to_tier(1, "more_trad_rules_bi")
 
 ## Run the search
 
