@@ -11,16 +11,44 @@ import pandas as pd
 import tools.TetradSearch as ts
 
 df, meta = pyreadstat.read_dta("../replication_files_linke/DataJCRJune12.dta")
-# Individual IDs, not important for our study + lead to explosion of dummies
-df = df.drop(["EA_CODE", "RESPONDENT_ID"], axis=1)
-
-# Drop all "mean" or "Sum" variables: these are the same for all people from the same district
-df = df[df.columns.drop(list(df.filter(regex='mean')))]
-df = df[df.columns.drop(list(df.filter(regex='Sum')))]
+# Filter to only the variables used in the observational study
+df = df[
+    [
+        "T",
+        "RepDrt",
+        "loc_rules_bi",
+        "trad_rules_bi",
+        "more_loc_rules_bi",
+        "more_trad_rules_bi",
+        "TAMBelow1st",
+        "TAMBelow2nd",
+        "SPI3Below1st",
+        "SPI3Below2nd",
+        "vio_support",
+        "DataVCI",
+        "DataTI3",
+        "SumPre5_50k",
+        "SPI3mean2013_07_2014_06",
+        "Var_low",
+        "age",
+        "gender",
+        "employed_q3",
+        "formal_education_q5",
+        "pastoral_q6",
+        "low_ses_q15",
+        "included_q11",
+        "attacked_1yr",
+        "eth_match",
+        "gender_match",
+        "weather_lied",
+    ]
+]
 
 # Normalize continuous data
-df_cont = df.select_dtypes(include=['float16', 'float32', 'float64'])
-df[df_cont.columns] = (df[df_cont.columns]-df[df_cont.columns].mean()) / df[df_cont.columns].std()
+df_cont = df.select_dtypes(include=["float16", "float32", "float64"])
+df[df_cont.columns] = (df[df_cont.columns] - df[df_cont.columns].mean()) / df[
+    df_cont.columns
+].std()
 
 # Get string data
 df_str = df.select_dtypes(exclude=[np.number])
@@ -29,9 +57,8 @@ df[df_str.columns] = df[df_str.columns].apply(lambda x: pd.factorize(x)[0])
 
 df = df.astype({col: "float64" for col in df.columns})
 
-# print(df)
-
 search = ts.TetradSearch(df)
+
 # TODO: Conditional Correlation Independence
 ## Use appropriate test of independence
 search.use_sem_bic(penalty_discount=1)
@@ -40,17 +67,11 @@ search.use_sem_bic(penalty_discount=1)
 # search.add_to_tier(0, "")
 
 ## Run the search
-# search.run_pc()
-# print(search.get_string())
 
 search.run_fges()
-print(search.get_string())
 
-# search.run_dagma()
-# print(search.get_string())
+output = search.get_string()
+print(output)
 
-# search.run_direct_lingam()
-# print(search.get_string())
-
-## Print all subsets independence facts.
-# print(search.all_subsets_independence_facts(search.get_java()))
+with open("PROJECT_learned_edges.txt", "w") as file:
+    file.write(output)
