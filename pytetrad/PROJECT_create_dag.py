@@ -15,7 +15,7 @@ df, meta = pyreadstat.read_dta("../replication_files_linke/DataJCRJune12.dta")
 df = df[
     [
         "T",
-        "RepDrt",
+        "RepDrt", # Reported drought
         "loc_rules_bi", # the presence of local official government rules regulating natural resources;
         "trad_rules_bi", # the presence of informal nongovernmental traditional rules regulating natural resources;
         "more_loc_rules_bi", # a greater number of local official government rules regulating natural resources than there were in the past;
@@ -25,8 +25,8 @@ df = df[
         "SPI3Below1st",
         "SPI3Below2nd",
         "vio_support",
-        "DataVCI",
-        "DataTI3",
+        "DataVCI", # Vegetation condition index
+        "DataTI3", # Temperature deviation index
         "SumPre5_50k", # Violence within fifty kilometers (five year)
         "SPI3mean2013_07_2014_06", # Precipitation deviation (enumeration year)
         "Var_low", # Precipitation variation low
