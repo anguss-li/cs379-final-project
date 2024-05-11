@@ -11,32 +11,34 @@ import pandas as pd
 import tools.TetradSearch as ts
 
 df, meta = pyreadstat.read_dta("../replication_files_linke/DataJCRJune12.dta")
+df.to_csv("PROJECT_data_raw.csv", index=False, na_rep="*")
+
 # Filter to only the variables used in the observational study
 df = df[
     [
         "T",
-        "RepDrt", # Reported drought
-        "loc_rules_bi", # the presence of local official government rules regulating natural resources;
-        "trad_rules_bi", # the presence of informal nongovernmental traditional rules regulating natural resources;
-        "more_loc_rules_bi", # a greater number of local official government rules regulating natural resources than there were in the past;
-        "more_trad_rules_bi", # a greater number of informal nongovernmental traditional rules regulating natural resources than there were in the past.
+        "RepDrt",  # Reported drought
+        "loc_rules_bi",  # the presence of local official government rules regulating natural resources;
+        "trad_rules_bi",  # the presence of informal nongovernmental traditional rules regulating natural resources;
+        "more_loc_rules_bi",  # a greater number of local official government rules regulating natural resources than there were in the past;
+        "more_trad_rules_bi",  # a greater number of informal nongovernmental traditional rules regulating natural resources than there were in the past.
         "TAMBelow1st",
         "TAMBelow2nd",
         "SPI3Below1st",
         "SPI3Below2nd",
         "vio_support",
-        "DataVCI", # Vegetation condition index
-        "DataTI3", # Temperature deviation index
-        "SumPre5_50k", # Violence within fifty kilometers (five year)
-        "SPI3mean2013_07_2014_06", # Precipitation deviation (enumeration year)
-        "Var_low", # Precipitation variation low
+        "DataVCI",  # Vegetation condition index
+        "DataTI3",  # Temperature deviation index
+        "SumPre5_50k",  # Violence within fifty kilometers (five year)
+        "SPI3mean2013_07_2014_06",  # Precipitation deviation (enumeration year)
+        "Var_low",  # Precipitation variation low
         "age",
         "gender",
         "employed_q3",
         "formal_education_q5",
         "pastoral_q6",
-        "low_ses_q15", # Low socioeconomic status
-        "included_q11", # Included previous government
+        "low_ses_q15",  # Low socioeconomic status
+        "included_q11",  # Included previous government
         "attacked_1yr",
         "eth_match",
         "gender_match",
@@ -44,16 +46,15 @@ df = df[
     ]
 ]
 
+binary_cols = [
+    col for col in df if np.isin(df[col].dropna().unique(), [0.0, 1.0]).all()
+]
+
 # Normalize continuous data
-df_cont = df.select_dtypes(include=["float16", "float32", "float64"])
+df_cont = df[df.columns.difference(binary_cols)]
 df[df_cont.columns] = (df[df_cont.columns] - df[df_cont.columns].mean()) / df[
     df_cont.columns
 ].std()
-
-# Get string data
-df_str = df.select_dtypes(exclude=[np.number])
-# Numerically encode string variables
-df[df_str.columns] = df[df_str.columns].apply(lambda x: pd.factorize(x)[0])
 
 df = df.astype({col: "float64" for col in df.columns})
 
